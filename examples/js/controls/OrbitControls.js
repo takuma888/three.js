@@ -431,7 +431,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleMouseDownRotate' );
 
-		rotateStart.set( event.clientX, event.clientY );
+		rotateStart.set( -event.clientX, -event.clientY );
 
 	}
 
@@ -439,7 +439,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleMouseDownDolly' );
 
-		dollyStart.set( event.clientX, event.clientY );
+		dollyStart.set( -event.clientX, -event.clientY );
 
 	}
 
@@ -447,7 +447,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleMouseDownPan' );
 
-		panStart.set( event.clientX, event.clientY );
+		panStart.set( -event.clientX, -event.clientY );
 
 	}
 
@@ -455,7 +455,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleMouseMoveRotate' );
 
-		rotateEnd.set( event.clientX, event.clientY );
+		rotateEnd.set( -event.clientX, -event.clientY );
 
 		rotateDelta.subVectors( rotateEnd, rotateStart ).multiplyScalar( scope.rotateSpeed );
 
@@ -475,7 +475,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleMouseMoveDolly' );
 
-		dollyEnd.set( event.clientX, event.clientY );
+		dollyEnd.set( -event.clientX, -event.clientY );
 
 		dollyDelta.subVectors( dollyEnd, dollyStart );
 
@@ -499,7 +499,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleMouseMovePan' );
 
-		panEnd.set( event.clientX, event.clientY );
+		panEnd.set( -event.clientX, -event.clientY );
 
 		panDelta.subVectors( panEnd, panStart ).multiplyScalar( scope.panSpeed );
 
@@ -569,7 +569,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleTouchStartRotate' );
 
-		rotateStart.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
+		rotateStart.set( -event.touches[ 0 ].pageX, -event.touches[ 0 ].pageY );
 
 	}
 
@@ -579,8 +579,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		if ( scope.enableZoom ) {
 
-			var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
-			var dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY;
+			var dx = -event.touches[ 0 ].pageX - -event.touches[ 1 ].pageX;
+			var dy = -event.touches[ 0 ].pageY - -event.touches[ 1 ].pageY;
 
 			var distance = Math.sqrt( dx * dx + dy * dy );
 
@@ -590,8 +590,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		if ( scope.enablePan ) {
 
-			var x = 0.5 * ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX );
-			var y = 0.5 * ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY );
+			var x = 0.5 * ( -event.touches[ 0 ].pageX + -event.touches[ 1 ].pageX );
+			var y = 0.5 * ( -event.touches[ 0 ].pageY + -event.touches[ 1 ].pageY );
 
 			panStart.set( x, y );
 
@@ -603,7 +603,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		//console.log( 'handleTouchMoveRotate' );
 
-		rotateEnd.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
+		rotateEnd.set( -event.touches[ 0 ].pageX, -event.touches[ 0 ].pageY );
 
 		rotateDelta.subVectors( rotateEnd, rotateStart ).multiplyScalar( scope.rotateSpeed );
 
@@ -625,8 +625,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		if ( scope.enableZoom ) {
 
-			var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
-			var dy = event.touches[ 0 ].pageY - event.touches[ 1 ].pageY;
+			var dx = -event.touches[ 0 ].pageX - -event.touches[ 1 ].pageX;
+			var dy = -event.touches[ 0 ].pageY - -event.touches[ 1 ].pageY;
 
 			var distance = Math.sqrt( dx * dx + dy * dy );
 
@@ -642,8 +642,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		if ( scope.enablePan ) {
 
-			var x = 0.5 * ( event.touches[ 0 ].pageX + event.touches[ 1 ].pageX );
-			var y = 0.5 * ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY );
+			var x = 0.5 * ( -event.touches[ 0 ].pageX + -event.touches[ 1 ].pageX );
+			var y = 0.5 * ( -event.touches[ 0 ].pageY + -event.touches[ 1 ].pageY );
 
 			panEnd.set( x, y );
 

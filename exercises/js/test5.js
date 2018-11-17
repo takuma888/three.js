@@ -106,7 +106,7 @@ function init() {
     .setPath( 'assets/jpg/' )
     .load( [ 'panorama.right.jpg', 'panorama.left.jpg', 'panorama.up.jpg', 'panorama.down.jpg', 'panorama.front.jpg', 'panorama.back.jpg' ] );
 
-  let geometry = new THREE.SphereBufferGeometry( 10, 64, 32 );
+  let geometry = new THREE.SphereBufferGeometry( 10, 32, 16 );
   let material = new THREE.MeshBasicMaterial( {
     color: 0xffffff, envMap: scene.background, refractionRatio: 0.9,
     side: THREE.BackSide,
@@ -119,7 +119,7 @@ function init() {
   mesh.scale.x = mesh.scale.y = mesh.scale.z = 1.15;
   scene.add( mesh );
 
-  let geometry2 = new THREE.SphereBufferGeometry( 10, 64, 32 );
+  let geometry2 = new THREE.SphereBufferGeometry( 10, 32, 16 );
   let material2 = new THREE.MeshBasicMaterial( {
     color: 0xffffff, envMap: scene2.background,
     opacity: 0.1,
@@ -200,7 +200,7 @@ function init() {
 
     }
   });
-
+  //
   let windmill = new MyModel({
     path: modelPath,
     name: 'windmill/windmill',
@@ -260,7 +260,7 @@ function init() {
       this.object.rotation.set(0,Math.PI*0,0);
     }
   });
-
+  //
 
   scene.matrixAutoUpdate = false;
 

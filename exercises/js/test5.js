@@ -14,6 +14,12 @@ var mixers = [];
 
 var clock = new THREE.Clock();
 
+var postprocessing = {};
+
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+
 function MyModel(opt){
 
   this.path = opt.path;
@@ -83,7 +89,7 @@ function init() {
   container = document.createElement( 'div' );
   document.body.appendChild( container );
 
-  camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+  camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
   camera.position.z = 40;
   camera.position.y = 5;
 
@@ -128,21 +134,20 @@ function init() {
   scene.add( mesh2 );
 
 
-  THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
 
   // ground
-  var mesh_ground = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( {
-    color: 0x777766, depthWrite: false,
-    side: THREE.doubleSide,
-  } ) );
-  mesh_ground.rotation.x = - Math.PI / 2;
-  mesh_ground.receiveShadow = true;
+  // var mesh_ground = new THREE.Mesh( new THREE.PlaneBufferGeometry( 2000, 2000 ), new THREE.MeshPhongMaterial( {
+  //   color: 0x777766, depthWrite: false,
+  //   side: THREE.doubleSide,
+  // } ) );
+  // mesh_ground.rotation.x = - Math.PI / 2;
+  // mesh_ground.receiveShadow = true;
   // scene.add( mesh_ground );
 
-  var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
-  grid.material.opacity = 0.2;
-  grid.material.transparent = true;
-  scene.add( grid );
+  // var grid = new THREE.GridHelper( 2000, 20, 0x000000, 0x000000 );
+  // grid.material.opacity = 0.2;
+  // grid.material.transparent = true;
+  // scene.add( grid );
 
   light = new THREE.HemisphereLight( 0xffffff, 0x444444 );
   light.position.set( 0, 200, 0 );
@@ -182,6 +187,8 @@ function init() {
     e.preventDefault();
   }, {passive: false});
 
+
+  THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
 
   let modelPath = 'assets/models/';
 
@@ -254,9 +261,66 @@ function init() {
     }
   });
 
+
+  scene.matrixAutoUpdate = false;
+
+  initPostprocessing();
+
+  renderer.autoClear = false;
+
+  var effectController  = {
+
+    focus: 		30.0,
+    aperture:	1.5,
+    maxblur:	1.0
+
+  };
+
+
+  var matChanger = function( ) {
+
+    postprocessing.bokeh.uniforms[ "focus" ].value = effectController.focus;
+    postprocessing.bokeh.uniforms[ "aperture" ].value = effectController.aperture * 0.00001;
+    postprocessing.bokeh.uniforms[ "maxblur" ].value = effectController.maxblur;
+
+  };
+
+  matChanger();
+
+  window.effectController = effectController;
+  window.matChanger = matChanger;
+
 }
 
+function initPostprocessing() {
+  var renderPass = new THREE.RenderPass( scene, camera );
+
+  var bokehPass = new THREE.BokehPass( scene, camera, {
+    focus: 		1.0,
+    aperture:	0.025,
+    maxblur:	1.0,
+
+    width: width,
+    height: height
+  } );
+
+  bokehPass.renderToScreen = true;
+
+  var composer = new THREE.EffectComposer( renderer );
+
+  composer.addPass( renderPass );
+  composer.addPass( bokehPass );
+
+  postprocessing.composer = composer;
+  postprocessing.bokeh = bokehPass;
+
+}
+
+
 function onWindowResize() {
+
+  width = window.innerWidth;
+  height = window.innerHeight;
 
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -290,7 +354,9 @@ function render() {
 
   }
 
-  renderer.render( scene, camera );
+  postprocessing.composer.render( 0.1 );
+
+  // renderer.render( scene, camera );
 
 }
 

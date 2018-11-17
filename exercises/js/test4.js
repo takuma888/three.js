@@ -36,7 +36,7 @@ function init() {
 
   var geometry = new THREE.SphereBufferGeometry( 10, 128, 128 );
   var material = new THREE.MeshBasicMaterial( {
-    color: 0xffffff, envMap: scene.background, refractionRatio: 0.985,
+    color: 0xffffff, envMap: scene.background, refractionRatio: 0.9,
     side: THREE.BackSide,
   } );
   material.envMap.mapping = THREE.CubeRefractionMapping;
@@ -51,6 +51,7 @@ function init() {
 
   // model
   var loader = new THREE.FBXLoader();
+  let model_path = '';
   loader.load( '../examples/models/fbx/Samba Dancing.fbx', function ( object ) {
 
     object.mixer = new THREE.AnimationMixer( object );
@@ -67,6 +68,7 @@ function init() {
     } );
 
     object.scale.x = object.scale.y = object.scale.z = 0.05;
+    // object.scale.x = object.scale.y = object.scale.z = 1;
     object.position.set(0,0,0);
     scene.add( object );
 

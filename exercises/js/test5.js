@@ -244,6 +244,16 @@ function init() {
     }
   });
 
+  let christmas_tree = new MyModel({
+    path: modelPath,
+    name: 'trees/christmas_tree',
+    scale: 0.02,
+    onload: function() {
+      this.object.position.set(1,0,4);
+      this.object.rotation.set(0,Math.PI*0,0);
+    }
+  });
+
 }
 
 function onWindowResize() {
